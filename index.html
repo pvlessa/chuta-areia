@@ -1,491 +1,1008 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chuta Areia — Futevôlei</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071A33" />
+  <title>Chuta Areia 2.0 | Sorteio de Times</title>
+  <meta name="description" content="Sorteador oficial de times do Chuta Areia." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap');
 
-  :root{
-    --sand:#EFE1BF;
-    --sand-deep:#CDA968;
-    --ocean:#0E4A46;
-    --ocean-deep:#092E2B;
-    --coral:#FF5A36;
-    --ink:#122421;
-    --line: rgba(18,36,33,0.16);
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--sand);
-    color:var(--ink);
-    font-family:'Work Sans',sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{font-family:'Archivo Black',sans-serif; margin:0; line-height:1;}
-  .mono{font-family:'Space Mono',monospace;}
+    :root {
+      --navy: #071A33;
+      --blue: #0A4A6F;
+      --cyan: #18A7E0;
+      --sky: #8DD7F7;
+      --sand: #F3E8CF;
+      --white: #FFFFFF;
+      --ink: #0D1726;
+      --muted: #64748B;
+      --card: rgba(255, 255, 255, .92);
+      --line: rgba(7, 26, 51, .12);
+      --success: #128C7E;
+      --shadow: 0 24px 70px rgba(7, 26, 51, .18);
+    }
 
-  /* ---------- NET DIVIDER (signature element) ---------- */
-  .net{
-    width:100%;
-    height:34px;
-    display:block;
-  }
-  .net.dark{ background:var(--ocean); }
-  .net.light{ background:var(--sand); }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    background:
-      radial-gradient(ellipse at 15% -10%, rgba(255,90,54,0.28), transparent 55%),
-      linear-gradient(180deg, var(--ocean) 0%, var(--ocean) 78%, var(--ocean-deep) 100%);
-    color:var(--sand);
-    padding:64px 24px 0;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero-inner{
-    max-width:920px;
-    margin:0 auto;
-    padding-bottom:72px;
-    position:relative;
-    z-index:2;
-  }
-  .eyebrow{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-family:'Space Mono',monospace;
-    font-size:13px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--coral);
-    margin-bottom:22px;
-  }
-  .eyebrow::before{
-    content:"";
-    width:9px; height:9px;
-    border-radius:50%;
-    background:var(--coral);
-    display:inline-block;
-  }
-  .hero h1{
-    font-size:clamp(48px, 9vw, 92px);
-    letter-spacing:-0.01em;
-    color:var(--sand);
-  }
-  .hero h1 span{ color:var(--coral); }
-  .hero p.tagline{
-    font-size:19px;
-    max-width:480px;
-    margin:22px 0 34px;
-    color:#D9E7E4;
-    line-height:1.5;
-  }
-  .btn{
-    font-family:'Archivo Black',sans-serif;
-    font-size:15px;
-    letter-spacing:.02em;
-    border:none;
-    cursor:pointer;
-    padding:17px 30px;
-    color:var(--sand);
-    background:var(--coral);
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    transition:transform .15s ease, box-shadow .15s ease;
-    box-shadow:0 0 0 0 rgba(255,90,54,0);
-  }
-  .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.18); }
-  .btn:active{ transform:translateY(0px); }
-  .btn.ghost{
-    background:transparent;
-    border:2px solid var(--sand);
-    color:var(--sand);
-  }
-  .btn.big{ font-size:19px; padding:22px 44px; }
-  .btn:disabled{ opacity:.45; cursor:not-allowed; transform:none; box-shadow:none; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(24, 167, 224, .22), transparent 30%),
+        radial-gradient(circle at 90% 12%, rgba(243, 232, 207, .8), transparent 31%),
+        linear-gradient(180deg, #F6FBFF 0%, #EDF7FC 48%, #F7F1E4 100%);
+    }
 
-  /* footprint trail across hero */
-  .trail{
-    position:absolute;
-    bottom:14px; left:0; right:0;
-    height:60px;
-    display:flex;
-    gap:46px;
-    align-items:center;
-    padding:0 24px;
-    opacity:.35;
-    z-index:1;
-  }
-  .trail svg{ width:22px; height:30px; flex:0 0 auto; }
-  .trail svg:nth-child(even){ transform:translateY(14px) rotate(6deg); }
-  .trail svg:nth-child(odd){ transform:translateY(-4px) rotate(-6deg); }
+    button, input, textarea, select { font: inherit; }
 
-  /* ---------- SECTIONS ---------- */
-  section{ padding:76px 24px; }
-  .wrap{ max-width:920px; margin:0 auto; }
-  .kicker{
-    font-family:'Space Mono',monospace;
-    font-size:13px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--ocean);
-    opacity:.7;
-    margin-bottom:14px;
-  }
-  h2.title{
-    font-size:clamp(30px,5vw,44px);
-    margin-bottom:12px;
-  }
-  .sub{
-    font-size:16px;
-    color:var(--ink);
-    opacity:.72;
-    max-width:520px;
-    margin-bottom:44px;
-    line-height:1.55;
-  }
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
 
-  /* ---------- COMO FUNCIONA ---------- */
-  .steps{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-  }
-  .step{
-    background:#fff;
-    border:1px solid var(--line);
-    padding:26px 20px;
-  }
-  .step .num{
-    font-family:'Space Mono',monospace;
-    font-size:13px;
-    color:var(--coral);
-    margin-bottom:16px;
-  }
-  .step h3{
-    font-size:16px;
-    font-family:'Work Sans',sans-serif;
-    font-weight:700;
-    margin-bottom:8px;
-  }
-  .step p{ font-size:13.5px; color:var(--ink); opacity:.68; line-height:1.5; margin:0;}
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7, 26, 51, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
 
-  /* ---------- INSCRIÇÃO ---------- */
-  .signup-panel{
-    background:var(--ocean);
-    color:var(--sand);
-    padding:48px 40px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
-  }
-  .signup-panel .kicker{ color:var(--sand); opacity:.6; }
-  .signup-panel h2.title{ color:var(--sand); }
-  .signup-panel .sub{ color:#CFE1DD; opacity:.85; }
-  .form-row{ display:flex; gap:10px; margin-top:18px; }
-  input[type=text]{
-    flex:1;
-    padding:16px 18px;
-    border:2px solid rgba(239,225,191,0.3);
-    background:rgba(9,46,43,0.4);
-    color:var(--sand);
-    font-family:'Work Sans',sans-serif;
-    font-size:15px;
-  }
-  input[type=text]::placeholder{ color:rgba(239,225,191,0.55); }
-  input[type=text]:focus{ outline:none; border-color:var(--coral); }
-  .count{
-    font-family:'Space Mono',monospace;
-    font-size:13px;
-    margin-top:22px;
-    color:var(--coral);
-  }
-  .list{
-    list-style:none;
-    margin:16px 0 0;
-    padding:0;
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-content:flex-start;
-  }
-  .list li{
-    background:rgba(239,225,191,0.1);
-    border:1px solid rgba(239,225,191,0.25);
-    padding:9px 10px 9px 16px;
-    font-size:14px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .list li button{
-    background:none;
-    border:none;
-    color:var(--coral);
-    cursor:pointer;
-    font-size:15px;
-    font-family:'Space Mono',monospace;
-    padding:0 4px;
-    line-height:1;
-  }
-  .empty-msg{
-    font-size:13.5px;
-    color:rgba(239,225,191,0.55);
-    margin-top:16px;
-  }
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-  /* ---------- SORTEIO ---------- */
-  .draw-zone{ text-align:center; }
-  .draw-zone .sub{ margin-left:auto; margin-right:auto; }
-  #drawError{
-    font-family:'Space Mono',monospace;
-    font-size:13.5px;
-    color:var(--coral);
-    margin-top:16px;
-    min-height:18px;
-  }
-  .board{
-    margin-top:48px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-    gap:18px;
-    text-align:left;
-  }
-  .pair-card{
-    background:#fff;
-    border:1px solid var(--line);
-    border-top:5px solid var(--coral);
-    padding:22px 24px;
-    opacity:0;
-    transform:translateY(10px);
-    animation:rise .45s ease forwards;
-  }
-  .pair-card .tag{
-    font-family:'Space Mono',monospace;
-    font-size:12px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    color:var(--coral);
-    margin-bottom:12px;
-  }
-  .pair-card .names{
-    font-family:'Archivo Black',sans-serif;
-    font-size:19px;
-    line-height:1.4;
-  }
-  .pair-card.solo{ border-top-color:var(--ocean); }
-  .pair-card.solo .tag{ color:var(--ocean); }
-  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      text-decoration: none;
+      min-width: 0;
+    }
 
-  footer{
-    background:var(--ocean-deep);
-    color:rgba(239,225,191,0.6);
-    text-align:center;
-    padding:30px 24px;
-    font-size:13px;
-  }
-  footer b{ color:var(--sand); }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, var(--cyan), #0A6EA8);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 22px rgba(24,167,224,.32);
+      flex: 0 0 auto;
+    }
 
-  @media (max-width:760px){
-    .steps{ grid-template-columns:1fr 1fr; }
-    .signup-panel{ grid-template-columns:1fr; padding:36px 24px; }
-    .form-row{ flex-direction:column; }
-  }
-  @media (max-width:480px){
-    .steps{ grid-template-columns:1fr; }
-  }
+    .brand-mark svg { width: 28px; height: 28px; }
 
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-    .pair-card{ animation:none; opacity:1; transform:none; }
-  }
-</style>
+    .brand-title {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 17px;
+      letter-spacing: .5px;
+      line-height: 1;
+    }
+
+    .brand-sub {
+      margin-top: 4px;
+      font-size: 11px;
+      color: rgba(255,255,255,.66);
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+
+    .nav-badge {
+      color: var(--white);
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: 76px 0 44px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 56px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(24,167,224,.11);
+      color: #075C88;
+      border: 1px solid rgba(24,167,224,.2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      margin: 18px 0 18px;
+      max-width: 740px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: .94;
+      letter-spacing: -3px;
+      color: var(--navy);
+    }
+
+    h1 span { color: var(--cyan); }
+
+    .hero p {
+      margin: 0;
+      max-width: 620px;
+      color: #43526A;
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.65;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-tags span {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(7,26,51,.06);
+    }
+
+    .jersey-stage {
+      min-height: 445px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .sun {
+      position: absolute;
+      width: 355px;
+      height: 355px;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(circle, rgba(255,255,255,.16) 0 2px, transparent 2px 13px),
+        linear-gradient(145deg, #19B7F2, #075C88);
+      box-shadow: 0 30px 80px rgba(24,167,224,.3);
+    }
+
+    .jersey {
+      position: relative;
+      z-index: 2;
+      width: 280px;
+      height: 330px;
+      background: linear-gradient(145deg, #0B5D8A, #082D52 72%);
+      clip-path: polygon(22% 0, 38% 11%, 62% 11%, 78% 0, 100% 20%, 85% 39%, 80% 100%, 20% 100%, 15% 39%, 0 20%);
+      filter: drop-shadow(0 28px 35px rgba(7,26,51,.28));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .jersey::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(115deg, transparent 0 44%, rgba(255,255,255,.06) 44% 49%, transparent 49%),
+        repeating-linear-gradient(90deg, transparent 0 32px, rgba(255,255,255,.035) 32px 34px);
+    }
+
+    .jersey-neck {
+      position: absolute;
+      width: 68px;
+      height: 36px;
+      border-radius: 0 0 40px 40px;
+      background: #051426;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .crest {
+      position: relative;
+      width: 145px;
+      min-height: 148px;
+      border: 4px solid var(--white);
+      border-radius: 24px 24px 34px 34px;
+      color: var(--white);
+      text-align: center;
+      padding: 18px 9px 13px;
+      box-shadow: inset 0 0 0 3px rgba(24,167,224,.85);
+      background: rgba(0,0,0,.1);
+    }
+
+    .crest .ball { font-size: 35px; line-height: 1; }
+    .crest strong {
+      display: block;
+      margin-top: 6px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .crest small {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-top: 7px;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+    .crest-icons { margin-top: 8px; font-size: 19px; letter-spacing: 5px; }
+
+    .sponsor {
+      position: absolute;
+      bottom: 31px;
+      left: 0;
+      width: 100%;
+      color: white;
+      text-align: center;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .float-card {
+      position: absolute;
+      z-index: 3;
+      background: rgba(255,255,255,.93);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.7);
+      box-shadow: 0 16px 40px rgba(7,26,51,.16);
+      border-radius: 17px;
+      padding: 13px 15px;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .float-card.one { top: 50px; right: 8px; transform: rotate(4deg); }
+    .float-card.two { bottom: 48px; left: 0; transform: rotate(-4deg); }
+
+    .app-section { padding: 28px 0 76px; }
+
+    .app-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, var(--navy), #0A4A6F);
+      color: white;
+      padding: 30px 34px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .app-header h2 {
+      margin: 0;
+      font-family: "Archivo Black", sans-serif;
+      font-size: clamp(26px, 4vw, 39px);
+      letter-spacing: -1px;
+    }
+
+    .app-header p {
+      margin: 8px 0 0;
+      color: rgba(255,255,255,.72);
+      line-height: 1.5;
+    }
+
+    .status-pill {
+      flex: 0 0 auto;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 0;
+    }
+
+    .panel {
+      padding: 32px;
+    }
+
+    .panel + .panel {
+      border-left: 1px solid var(--line);
+      background: rgba(247,251,255,.78);
+    }
+
+    .field { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #28364B;
+    }
+
+    textarea, select, input[type="text"] {
+      width: 100%;
+      border: 1px solid #CBD7E4;
+      border-radius: 15px;
+      background: white;
+      color: var(--ink);
+      outline: none;
+      transition: .2s ease;
+    }
+
+    textarea {
+      min-height: 260px;
+      resize: vertical;
+      padding: 15px;
+      line-height: 1.6;
+    }
+
+    select, input[type="text"] {
+      min-height: 50px;
+      padding: 0 14px;
+    }
+
+    textarea:focus, select:focus, input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 4px rgba(24,167,224,.12);
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .inline-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      border: 0;
+      min-height: 52px;
+      border-radius: 15px;
+      padding: 0 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0874AD);
+      color: white;
+      box-shadow: 0 12px 28px rgba(24,167,224,.26);
+    }
+
+    .btn-secondary {
+      background: #E8F2F8;
+      color: var(--navy);
+    }
+
+    .result-empty {
+      min-height: 475px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      padding: 34px;
+      border: 2px dashed #CEDAE5;
+      border-radius: 24px;
+      background: rgba(255,255,255,.65);
+    }
+
+    .result-empty .icon {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 16px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      background: linear-gradient(145deg, #E5F7FF, #D6EAF5);
+    }
+
+    .teams-wrap { display: none; }
+
+    .result-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .result-top h3 {
+      margin: 0;
+      font-family: "Archivo Black", sans-serif;
+      color: var(--navy);
+      font-size: 25px;
+    }
+
+    .draw-id {
+      font-size: 11px;
+      color: var(--muted);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 10px;
+    }
+
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .team {
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 10px 28px rgba(7,26,51,.07);
+    }
+
+    .team-head {
+      padding: 14px 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--navy));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .team:nth-child(even) .team-head {
+      background: linear-gradient(135deg, var(--cyan), #0874AD);
+    }
+
+    .team-head strong {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .team-head span {
+      font-size: 11px;
+      opacity: .72;
+    }
+
+    .team ul {
+      list-style: none;
+      padding: 8px 16px 12px;
+      margin: 0;
+    }
+
+    .team li {
+      padding: 11px 0;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border-bottom: 1px solid #EEF2F6;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .team li:last-child { border-bottom: 0; }
+
+    .player-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      background: #E7F6FC;
+      color: #0874AD;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .result-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn-whatsapp {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      box-shadow: 0 12px 28px rgba(18,140,126,.23);
+    }
+
+    .footnote {
+      margin: 15px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 12px 32px rgba(7,26,51,.07);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #DFF4FD;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+    }
+
+    .feature h4 {
+      margin: 14px 0 7px;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.72);
+      padding: 28px 0;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    footer strong { color: white; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      z-index: 100;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      color: white;
+      background: #081A2E;
+      box-shadow: 0 16px 45px rgba(0,0,0,.28);
+      border-radius: 999px;
+      padding: 12px 17px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 52px;
+      }
+      .jersey-stage { min-height: 390px; }
+      .app-grid { grid-template-columns: 1fr; }
+      .panel + .panel {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+      .features { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 20px, 1180px); }
+      .nav-badge { display: none; }
+      .hero { gap: 18px; padding: 40px 4px 26px; }
+      h1 { font-size: 49px; letter-spacing: -2px; }
+      .jersey-stage { min-height: 350px; transform: scale(.9); margin: -18px 0; }
+      .app-card { border-radius: 23px; }
+      .app-header { padding: 24px 20px; align-items: flex-start; }
+      .status-pill { display: none; }
+      .panel { padding: 22px 18px; }
+      .inline-fields, .actions, .teams-grid, .result-actions { grid-template-columns: 1fr; }
+      .btn-whatsapp { grid-column: auto; }
+      textarea { min-height: 220px; }
+      .result-empty { min-height: 330px; }
+      .result-top { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-inner">
-      <div class="eyebrow">Rachão toda semana</div>
-      <h1>CHUTA<br><span>AREIA</span></h1>
-      <p class="tagline">Monte sua lista, sorteie as duplas e resolve na areia. Sem embromação, sem panelinha — só o sorteio decide.</p>
-      <a href="#inscricao" class="btn">Entrar na lista ↓</a>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="#inicio" aria-label="Chuta Areia 2.0">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="21" stroke="white" stroke-width="4"/>
+            <path d="M32 11l8 9-3 11H27l-3-11 8-9ZM11 31l12-4 8 8-6 10-12-2-2-12Zm42 0-12-4-8 8 6 10 12-2 2-12ZM23 53l2-8 14 0 2 8" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>
+          <span class="brand-title">CHUTA AREIA</span>
+          <span class="brand-sub">Futebol na areia • Turma oficial</span>
+        </span>
+      </a>
+      <span class="nav-badge">VERSÃO 2.0</span>
     </div>
-    <div class="trail">
-      <svg viewBox="0 0 24 32" fill="var(--sand)"><ellipse cx="12" cy="8" rx="5" ry="7"/><ellipse cx="6" cy="22" rx="2.4" ry="4"/><ellipse cx="18" cy="22" rx="2.4" ry="4"/></svg>
-      <svg viewBox="0 0 24 32" fill="var(--sand)"><ellipse cx="12" cy="8" rx="5" ry="7"/><ellipse cx="6" cy="22" rx="2.4" ry="4"/><ellipse cx="18" cy="22" rx="2.4" ry="4"/></svg>
-      <svg viewBox="0 0 24 32" fill="var(--sand)"><ellipse cx="12" cy="8" rx="5" ry="7"/><ellipse cx="6" cy="22" rx="2.4" ry="4"/><ellipse cx="18" cy="22" rx="2.4" ry="4"/></svg>
-      <svg viewBox="0 0 24 32" fill="var(--sand)"><ellipse cx="12" cy="8" rx="5" ry="7"/><ellipse cx="6" cy="22" rx="2.4" ry="4"/><ellipse cx="18" cy="22" rx="2.4" ry="4"/></svg>
-      <svg viewBox="0 0 24 32" fill="var(--sand)"><ellipse cx="12" cy="8" rx="5" ry="7"/><ellipse cx="6" cy="22" rx="2.4" ry="4"/><ellipse cx="18" cy="22" rx="2.4" ry="4"/></svg>
-      <svg viewBox="0 0 24 32" fill="var(--sand)"><ellipse cx="12" cy="8" rx="5" ry="7"/><ellipse cx="6" cy="22" rx="2.4" ry="4"/><ellipse cx="18" cy="22" rx="2.4" ry="4"/></svg>
-    </div>
-  </div>
-  <div class="net dark"></div>
+  </header>
 
-  <!-- COMO FUNCIONA -->
-  <section>
-    <div class="wrap">
-      <div class="kicker">Como funciona</div>
-      <h2 class="title">Quatro passos até a rede</h2>
-      <p class="sub">O sorteio só sai quando a lista fechar — assim ninguém escolhe adversário fácil.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="num">01</div>
-          <h3>Escreve o nome</h3>
-          <p>Cada jogador entra na lista abaixo com o nome (ou apelido de quadra).</p>
-        </div>
-        <div class="step">
-          <div class="num">02</div>
-          <h3>Fecha a lista</h3>
-          <p>Espera todo mundo confirmar presença antes de rodar o sorteio.</p>
-        </div>
-        <div class="step">
-          <div class="num">03</div>
-          <h3>Sorteia as duplas</h3>
-          <p>Um clique embaralha todo mundo e forma as duplas na hora.</p>
-        </div>
-        <div class="step">
-          <div class="num">04</div>
-          <h3>Bora pra areia</h3>
-          <p>Duplas na mão, é só organizar os jogos e começar o rachão.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INSCRIÇÃO -->
-  <section id="inscricao" style="padding:0;">
-    <div class="signup-panel">
+  <main id="inicio">
+    <section class="shell hero">
       <div>
-        <div class="kicker">Lista de hoje</div>
-        <h2 class="title">Quem vai jogar?</h2>
-        <p class="sub">Adicione um nome de cada vez. Dá pra tirar da lista se alguém desistir.</p>
-        <div class="form-row">
-          <input type="text" id="nameInput" placeholder="Nome do jogador" maxlength="30">
-          <button class="btn" onclick="addPlayer()">Adicionar</button>
+        <span class="eyebrow">⚽ Sorteio oficial da resenha</span>
+        <h1>CHUTA<br><span>AREIA 2.0</span></h1>
+        <p>
+          Monte os times em segundos, compartilhe o resultado no WhatsApp e deixe a discussão para dentro da quadra.
+        </p>
+        <div class="hero-tags" aria-label="Identidade da turma">
+          <span>⚽ Futebol na areia</span>
+          <span>🍺 Resenha</span>
         </div>
-        <div class="count" id="countMsg">0 confirmados</div>
       </div>
-      <div>
-        <ul class="list" id="playerList"></ul>
-        <p class="empty-msg" id="emptyMsg">Ninguém entrou na lista ainda — comece pelo formulário ao lado.</p>
-      </div>
-    </div>
-  </section>
-  <div class="net light"></div>
 
-  <!-- SORTEIO -->
-  <section>
-    <div class="wrap draw-zone">
-      <div class="kicker">Sorteio</div>
-      <h2 class="title">Duplas na sorte, jogo justo</h2>
-      <p class="sub">Precisa de pelo menos 2 nomes na lista. Se sobrar alguém, essa pessoa joga solo até a próxima dupla vagar.</p>
-      <button class="btn big" id="drawBtn" onclick="sortear()">Sortear duplas</button>
-      <div id="drawError"></div>
-      <div class="board" id="board"></div>
-    </div>
-  </section>
+      <div class="jersey-stage" aria-label="Uniforme conceitual do Chuta Areia">
+        <div class="sun"></div>
+        <div class="float-card one">🏆 JOGO MARCADO</div>
+        <div class="float-card two">🍻 RESENHA GARANTIDA</div>
+        <div class="jersey">
+          <div class="jersey-neck"></div>
+          <div class="crest">
+            <div class="ball">⚽</div>
+            <strong>CHUTA<br>AREIA</strong>
+            <small>Futebol</small>
+            <div class="crest-icons">⚽🍺</div>
+          </div>
+          <div class="sponsor">Paulistinha • Mansão Maromba • Ambev</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell app-section">
+      <div class="app-card">
+        <div class="app-header">
+          <div>
+            <h2>Sorteador de times</h2>
+            <p>Um nome por linha. O sistema distribui todos aleatoriamente.</p>
+          </div>
+          <span class="status-pill" id="playerStatus">0 jogadores</span>
+        </div>
+
+        <div class="app-grid">
+          <section class="panel" aria-label="Configuração do sorteio">
+            <div class="field">
+              <label for="players">Lista de jogadores</label>
+              <textarea id="players" placeholder="Exemplo:
+Paulinho
+João
+Vini
+Yago
+Chinês
+Tamaro"></textarea>
+              <div class="hint">Você também pode separar os nomes por vírgula.</div>
+            </div>
+
+            <div class="inline-fields">
+              <div class="field">
+                <label for="teamCount">Quantidade de times</label>
+                <select id="teamCount">
+                  <option value="2">2 times</option>
+                  <option value="3">3 times</option>
+                  <option value="4">4 times</option>
+                  <option value="5">5 times</option>
+                  <option value="6">6 times</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="eventName">Nome do jogo</label>
+                <input id="eventName" type="text" maxlength="45" value="Chuta Areia" />
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-primary" id="drawBtn" type="button">⚡ Fazer sorteio</button>
+              <button class="btn btn-secondary" id="clearBtn" type="button">Limpar lista</button>
+            </div>
+            <p class="footnote">Os nomes ficam salvos apenas neste aparelho.</p>
+          </section>
+
+          <section class="panel" aria-live="polite">
+            <div class="result-empty" id="emptyState">
+              <div>
+                <div class="icon">⚽</div>
+                <strong>O resultado aparecerá aqui</strong>
+                <p>Adicione os jogadores e clique em “Fazer sorteio”.</p>
+              </div>
+            </div>
+
+            <div class="teams-wrap" id="resultState">
+              <div class="result-top">
+                <h3 id="resultTitle">Times sorteados</h3>
+                <span class="draw-id" id="drawId"></span>
+              </div>
+              <div class="teams-grid" id="teamsGrid"></div>
+
+              <div class="result-actions">
+                <button class="btn btn-secondary" id="redoBtn" type="button">🔄 Sortear novamente</button>
+                <button class="btn btn-secondary" id="copyBtn" type="button">📋 Copiar resultado</button>
+                <button class="btn btn-whatsapp" id="whatsappBtn" type="button">Enviar para meu WhatsApp</button>
+              </div>
+              <p class="footnote">
+                O WhatsApp será aberto com a mensagem pronta para o número cadastrado. Você confirma o envio.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon">🎲</div>
+          <h4>Sorteio rápido</h4>
+          <p>Distribuição aleatória e equilibrada pela quantidade de jogadores.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">💬</div>
+          <h4>WhatsApp integrado</h4>
+          <p>Resultado formatado e pronto para ser enviado ao organizador.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">📱</div>
+          <h4>Feito para celular</h4>
+          <p>Layout responsivo para usar na quadra, no bar ou em qualquer lugar.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <b>Chuta Areia</b> — futevôlei de verdade começa na lista.
+    <div class="shell">
+      <strong>CHUTA AREIA 2.0</strong> — futebol, amizade e resenha.
+    </div>
   </footer>
 
-<script>
-  let players = [];
+  <div class="toast" id="toast" role="status"></div>
 
-  function render(){
-    const listEl = document.getElementById('playerList');
-    const emptyMsg = document.getElementById('emptyMsg');
-    const countMsg = document.getElementById('countMsg');
+  <script>
+    const WHATSAPP_NUMBER = "5517996555907";
 
-    listEl.innerHTML = '';
-    players.forEach((name, i) => {
-      const li = document.createElement('li');
-      li.innerHTML = `${escapeHtml(name)} <button aria-label="Remover ${escapeHtml(name)}" onclick="removePlayer(${i})">✕</button>`;
-      listEl.appendChild(li);
-    });
+    const playersInput = document.getElementById("players");
+    const teamCount = document.getElementById("teamCount");
+    const eventName = document.getElementById("eventName");
+    const drawBtn = document.getElementById("drawBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const redoBtn = document.getElementById("redoBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+    const emptyState = document.getElementById("emptyState");
+    const resultState = document.getElementById("resultState");
+    const teamsGrid = document.getElementById("teamsGrid");
+    const resultTitle = document.getElementById("resultTitle");
+    const drawId = document.getElementById("drawId");
+    const playerStatus = document.getElementById("playerStatus");
+    const toast = document.getElementById("toast");
 
-    emptyMsg.style.display = players.length ? 'none' : 'block';
-    countMsg.textContent = players.length + (players.length === 1 ? ' confirmado' : ' confirmados');
-  }
+    let latestTeams = [];
+    let latestTimestamp = null;
 
-  function escapeHtml(str){
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
-  }
+    const parsePlayers = () => {
+      const names = playersInput.value
+        .split(/\n|,/)
+        .map(name => name.trim())
+        .filter(Boolean);
 
-  function addPlayer(){
-    const input = document.getElementById('nameInput');
-    const name = input.value.trim();
-    if(!name) return;
-    if(players.some(p => p.toLowerCase() === name.toLowerCase())){
-      input.value = '';
-      input.placeholder = 'Esse nome já tá na lista';
-      return;
-    }
-    players.push(name);
-    input.value = '';
-    render();
-  }
+      return [...new Set(names)];
+    };
 
-  function removePlayer(i){
-    players.splice(i,1);
-    render();
-  }
+    const updatePlayerStatus = () => {
+      const count = parsePlayers().length;
+      playerStatus.textContent = `${count} ${count === 1 ? "jogador" : "jogadores"}`;
+      localStorage.setItem("chutaAreiaPlayers", playersInput.value);
+      localStorage.setItem("chutaAreiaEvent", eventName.value);
+      localStorage.setItem("chutaAreiaTeamCount", teamCount.value);
+    };
 
-  document.getElementById('nameInput').addEventListener('keydown', e => {
-    if(e.key === 'Enter') addPlayer();
-  });
-
-  function shuffle(arr){
-    const a = [...arr];
-    for(let i = a.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-
-  function sortear(){
-    const board = document.getElementById('board');
-    const errorEl = document.getElementById('drawError');
-    board.innerHTML = '';
-    errorEl.textContent = '';
-
-    if(players.length < 2){
-      errorEl.textContent = 'Coloca pelo menos 2 nomes na lista antes de sortear.';
-      return;
-    }
-
-    const shuffled = shuffle(players);
-    let pairNum = 1;
-    for(let i = 0; i < shuffled.length; i += 2){
-      const card = document.createElement('div');
-      const delay = (pairNum - 1) * 0.08;
-      card.style.animationDelay = delay + 's';
-
-      if(i + 1 < shuffled.length){
-        card.className = 'pair-card';
-        card.innerHTML = `<div class="tag mono">Dupla ${String(pairNum).padStart(2,'0')}</div>
-          <div class="names">${escapeHtml(shuffled[i])}<br>${escapeHtml(shuffled[i+1])}</div>`;
-      } else {
-        card.className = 'pair-card solo';
-        card.innerHTML = `<div class="tag mono">Sem par</div>
-          <div class="names">${escapeHtml(shuffled[i])}<br><span style="font-family:'Work Sans'; font-weight:400; font-size:14px; opacity:.65;">joga solo nessa rodada</span></div>`;
+    const shuffle = (items) => {
+      const array = [...items];
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      board.appendChild(card);
-      pairNum++;
-    }
-  }
+      return array;
+    };
 
-  render();
-</script>
+    const showToast = (message) => {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2300);
+    };
+
+    const createResultText = () => {
+      const title = eventName.value.trim() || "Chuta Areia";
+      const date = latestTimestamp
+        ? latestTimestamp.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })
+        : new Date().toLocaleString("pt-BR");
+
+      let text = `⚽ *${title.toUpperCase()} — SORTEIO DOS TIMES*\\n`;
+      text += `📅 ${date}\\n\\n`;
+
+      latestTeams.forEach((team, index) => {
+        text += `🔵 *TIME ${index + 1}*\\n`;
+        team.forEach(player => text += `• ${player}\\n`);
+        text += "\\n";
+      });
+
+      text += "⚽ Chuta Areia 2.0";
+      return text;
+    };
+
+    const drawTeams = () => {
+      const players = parsePlayers();
+      const quantity = Number(teamCount.value);
+
+      if (players.length < 2) {
+        showToast("Adicione pelo menos 2 jogadores.");
+        playersInput.focus();
+        return;
+      }
+
+      if (players.length < quantity) {
+        showToast("A quantidade de times é maior que a de jogadores.");
+        return;
+      }
+
+      const shuffled = shuffle(players);
+      latestTeams = Array.from({ length: quantity }, () => []);
+
+      shuffled.forEach((player, index) => {
+        latestTeams[index % quantity].push(player);
+      });
+
+      latestTimestamp = new Date();
+      renderTeams();
+    };
+
+    const renderTeams = () => {
+      teamsGrid.innerHTML = "";
+
+      latestTeams.forEach((team, index) => {
+        const card = document.createElement("article");
+        card.className = "team";
+
+        const playersMarkup = team.map((player, playerIndex) => `
+          <li>
+            <span class="player-dot">${playerIndex + 1}</span>
+            <span>${escapeHtml(player)}</span>
+          </li>
+        `).join("");
+
+        card.innerHTML = `
+          <div class="team-head">
+            <strong>Time ${index + 1}</strong>
+            <span>${team.length} ${team.length === 1 ? "jogador" : "jogadores"}</span>
+          </div>
+          <ul>${playersMarkup}</ul>
+        `;
+        teamsGrid.appendChild(card);
+      });
+
+      const title = eventName.value.trim() || "Chuta Areia";
+      resultTitle.textContent = title;
+      drawId.textContent = `Sorteio #${String(Date.now()).slice(-6)}`;
+      emptyState.style.display = "none";
+      resultState.style.display = "block";
+      resultState.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      showToast("Times sorteados!");
+    };
+
+    const escapeHtml = (text) => {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    };
+
+    const clearAll = () => {
+      if (!playersInput.value.trim() || confirm("Deseja apagar toda a lista de jogadores?")) {
+        playersInput.value = "";
+        latestTeams = [];
+        emptyState.style.display = "grid";
+        resultState.style.display = "none";
+        updatePlayerStatus();
+        playersInput.focus();
+      }
+    };
+
+    const copyResult = async () => {
+      if (!latestTeams.length) return;
+      try {
+        await navigator.clipboard.writeText(createResultText().replaceAll("*", ""));
+        showToast("Resultado copiado!");
+      } catch {
+        showToast("Não foi possível copiar automaticamente.");
+      }
+    };
+
+    const sendWhatsApp = () => {
+      if (!latestTeams.length) return;
+      const message = encodeURIComponent(createResultText());
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+
+    playersInput.addEventListener("input", updatePlayerStatus);
+    eventName.addEventListener("input", updatePlayerStatus);
+    teamCount.addEventListener("change", updatePlayerStatus);
+    drawBtn.addEventListener("click", drawTeams);
+    redoBtn.addEventListener("click", drawTeams);
+    clearBtn.addEventListener("click", clearAll);
+    copyBtn.addEventListener("click", copyResult);
+    whatsappBtn.addEventListener("click", sendWhatsApp);
+
+    const savedPlayers = localStorage.getItem("chutaAreiaPlayers");
+    const savedEvent = localStorage.getItem("chutaAreiaEvent");
+    const savedTeamCount = localStorage.getItem("chutaAreiaTeamCount");
+
+    if (savedPlayers) playersInput.value = savedPlayers;
+    if (savedEvent) eventName.value = savedEvent;
+    if (savedTeamCount) teamCount.value = savedTeamCount;
+    updatePlayerStatus();
+  </script>
 </body>
 </html>
