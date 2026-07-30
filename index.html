@@ -122,29 +122,45 @@ footer{padding-top:36px}
 
 
 #drawCard{text-align:center;padding:26px}
-#drawCard .team-options{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-#drawCard .team-options button{
-  min-width:62px;
-  border:1px solid rgba(133,184,231,.28);
-  background:rgba(5,27,51,.85);
-  color:#fff;
-  border-radius:14px;
-  padding:12px 16px;
-  font-weight:900;
-  transition:.22s ease;
-}
-#drawCard .team-options button:hover{transform:translateY(-2px)}
-#drawCard .team-options button.active{
-  background:linear-gradient(180deg,#1885ff,#0752d2);
-  border-color:transparent;
-  box-shadow:0 10px 30px rgba(0,105,255,.32);
-}
+
+
+
+
 #drawCard .primary{
   max-width:520px;
   margin:0 auto;
   display:block;
   padding:17px;
   font-size:19px;
+}
+
+
+.bulk-input{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch}
+.bulk-input textarea{
+  width:100%;min-height:150px;resize:vertical;
+  border:1px solid rgba(133,184,231,.26);
+  background:rgba(255,255,255,.055);
+  color:#fff;border-radius:16px;padding:16px;
+  font:inherit;line-height:1.55;outline:none;
+}
+.bulk-input textarea:focus{
+  border-color:rgba(24,133,255,.72);
+  box-shadow:0 0 0 4px rgba(24,133,255,.10);
+}
+.primary-add{
+  min-width:190px;
+  background:linear-gradient(180deg,#1885ff,#0752d2);
+  border-color:transparent;
+}
+.input-help,.draw-description{
+  color:var(--muted);font-size:13px;line-height:1.55;margin:10px 0 0;
+}
+#drawCard .section-title span{
+  color:#69b4ff;font-weight:800;font-size:13px;
+}
+@media(max-width:650px){
+  .bulk-input{grid-template-columns:1fr}
+  .primary-add{width:100%}
 }
 
 </style>
@@ -159,45 +175,92 @@ footer{padding-top:36px}
 </section>
 
 
-<section class="content-grid"><div class="card" id="playersCard"><div class="section-title"><h2>JOGADORES</h2><span id="playerBadge">0 cadastrados</span></div><div class="player-input"><input id="playerInput" placeholder="Nome do jogador"><button class="btn" onclick="addPlayer()">Adicionar</button></div><div id="playerList" class="chips"></div><div class="actions"><button class="btn" onclick="loadExample()">Usar exemplo</button><button class="btn" onclick="clearPlayers()">Limpar lista</button></div></div>
+<section class="content-grid"><div class="card" id="playersCard"><div class="section-title"><h2>JOGADORES</h2><span id="playerBadge">0 cadastrados</span></div><div class="bulk-input">
+  <textarea id="playersInput" placeholder="Cole ou digite todos os nomes de uma vez.
+
+Exemplo:
+Paulinho
+Vini
+Yago
+Johnny"></textarea>
+  <button class="btn primary-add" onclick="addPlayersBulk()">ADICIONAR JOGADORES</button>
+</div>
+<p class="input-help">Você pode separar os nomes por linha, vírgula ou ponto e vírgula.</p><div id="playerList" class="chips"></div><div class="actions"><button class="btn" onclick="loadExample()">Usar exemplo</button><button class="btn" onclick="clearPlayers()">Limpar lista</button></div></div>
 
 <div class="card" id="drawCard" style="margin-top:16px">
   <div class="section-title">
     <h2>SORTEAR TIMES</h2>
-    <span>Escolha a quantidade</span>
+    <span id="autoTeamInfo">Quantidade automática</span>
   </div>
-  <div class="team-options" style="margin:18px 0">
-    <button onclick="setTeams(2)">2</button>
-    <button onclick="setTeams(3)">3</button>
-    <button class="active" onclick="setTeams(4)">4</button>
-    <button onclick="setTeams(5)">5</button>
-    <button onclick="setTeams(6)">6</button>
-  </div>
+  <p class="draw-description">O site calcula automaticamente a quantidade ideal de times, priorizando duplas. Se houver número ímpar, um time ficará com 3 jogadores.</p>
   <button class="primary" onclick="drawTeams()">🔀 SORTEAR AGORA</button>
 </div>
 <div class="card" style="margin-top:16px" id="resultCard"><div class="section-title"><h2>🔀 ÚLTIMO SORTEIO</h2><span id="teamBadge">0 TIMES</span></div><div id="teamsResult" class="empty">Nenhum sorteio realizado.</div><div class="actions"><button class="btn" onclick="copyResult()">📋 COPIAR RESULTADO</button><button class="btn whatsapp" onclick="sendWhatsApp()">ENVIAR NO WHATSAPP</button></div></div></section>
 <footer>Chuta Areia • Futevôlei, amigos e resenha.</footer>
 </div>
 <script>
-const WA_PHONE="5517996555907";let players=JSON.parse(localStorage.getItem("ca_players")||"[]"),teamCount=4,currentTeams=[];
+const WA_PHONE="5517996555907";let players=JSON.parse(localStorage.getItem("ca_players")||"[]"),currentTeams=[];
 const $=id=>document.getElementById(id);function save(){localStorage.setItem("ca_players",JSON.stringify(players));}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function scrollToId(id){$(id).scrollIntoView({behavior:"smooth"})}
-function setTeams(n){teamCount=n;document.querySelectorAll(".team-options button").forEach(b=>b.classList.toggle("active",Number(b.textContent)===n))}
-function addPlayer(){const i=$("playerInput"),name=i.value.trim();if(!name)return;if(players.some(p=>p.toLowerCase()===name.toLowerCase()))return alert("Jogador já cadastrado.");players.push(name);i.value="";save();render()}
+
+function addPlayersBulk(){
+  const field=$("playersInput");
+  const names=field.value
+    .split(/[
+,;]+/)
+    .map(name=>name.trim())
+    .filter(Boolean);
+
+  if(!names.length)return alert("Digite pelo menos um nome.");
+
+  let added=0;
+  names.forEach(name=>{
+    if(!players.some(p=>p.toLowerCase()===name.toLowerCase())){
+      players.push(name);
+      added++;
+    }
+  });
+
+  field.value="";
+  save();
+  render();
+
+  if(!added) alert("Todos esses jogadores já estavam cadastrados.");
+}
 function removePlayer(i){players.splice(i,1);save();render()}function clearPlayers(){if(confirm("Limpar todos os jogadores?")){players=[];currentTeams=[];save();render()}}
 function loadExample(){players=["Paulinho","Vini","Yago","Johnny","Tamaro","Chinês","Ruyter","Joca","Murilo","Fernando","Lucas","Rafael"];save();render()}
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function drawTeams(){if(players.length<teamCount*2)return alert(`Adicione pelo menos ${teamCount*2} jogadores.`);currentTeams=Array.from({length:teamCount},()=>[]);shuffle(players).forEach((p,i)=>currentTeams[i%teamCount].push(p));save();render();scrollToId("resultCard")}
+function drawTeams(){
+  if(players.length<4)return alert("Adicione pelo menos 4 jogadores.");
+
+  const shuffled=shuffle(players);
+  const automaticTeamCount=Math.floor(players.length/2);
+  currentTeams=Array.from({length:automaticTeamCount},()=>[]);
+
+  shuffled.forEach((player,index)=>{
+    currentTeams[index%automaticTeamCount].push(player);
+  });
+
+  save();
+  render();
+  scrollToId("resultCard");
+} jogadores.`);currentTeams=Array.from({length:teamCount},()=>[]);shuffle(players).forEach((p,i)=>currentTeams[i%teamCount].push(p));save();render();scrollToId("resultCard")}
 function resultText(){if(!currentTeams.length)return "";let t="⚽ *CHUTA AREIA*\\n\\n";currentTeams.forEach((team,i)=>{t+=`*TIME ${i+1}*\\n`;team.forEach((p,j)=>t+=`${j+1}. ${p}\\n`);t+="\\n"});return t+"Boa resenha! 🔥"}
 async function copyResult(){const t=resultText();if(!t)return alert("Faça um sorteio primeiro.");await navigator.clipboard.writeText(t);alert("Resultado copiado.")}
 function sendWhatsApp(){const t=resultText();if(!t)return alert("Faça um sorteio primeiro.");window.open(`https://wa.me/${WA_PHONE}?text=${encodeURIComponent(t)}`,"_blank")}
 function render(){
 $("playerBadge").textContent=`${players.length} cadastrados`;
+const autoCount=players.length>=4?Math.floor(players.length/2):0;
+$("autoTeamInfo").textContent=autoCount
+  ? `${autoCount} times automáticos`
+  : "Adicione pelo menos 4 jogadores";
 $("playerList").innerHTML=players.length?players.map((p,i)=>`<span class="chip">${esc(p)} <button onclick="removePlayer(${i})">×</button></span>`).join(""):'<div class="empty">Nenhum jogador cadastrado.</div>';
 if(currentTeams.length){$("teamsResult").className="teams";$("teamsResult").innerHTML=currentTeams.map((t,i)=>`<div class="team" data-n="${i+1}"><strong>👕 TIME ${i+1}</strong><ol>${t.map(p=>`<li>${esc(p)}</li>`).join("")}</ol></div>`).join("");$("teamBadge").textContent=`${currentTeams.length} TIMES`}else{$("teamsResult").className="empty";$("teamsResult").textContent="Nenhum sorteio realizado.";$("teamBadge").textContent="0 TIMES"}
 }
-$("playerInput").addEventListener("keydown",e=>{if(e.key==="Enter")addPlayer()});render();
+$("playersInput").addEventListener("keydown",e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==="Enter")addPlayersBulk()
+});render();
 </script>
 </body>
 </html>
